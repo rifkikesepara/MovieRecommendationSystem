@@ -17,7 +17,7 @@ export default function SearchResult() {
         height: "100vh",
       }}
     >
-      {false ? (
+      {loading ? (
         <SearchScreen
           onDone={() => {
             setLoading(false);

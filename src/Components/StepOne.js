@@ -1,6 +1,16 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
 
-export default function StepConnector({ onClick = () => {} }) {
+export default function StepConnector({ formik, onClick = () => {} }) {
+  const [error, setError] = useState(false);
+
   return (
     <Box
       sx={{
@@ -13,17 +23,25 @@ export default function StepConnector({ onClick = () => {} }) {
     >
       <Typography variant="h2">Movie Recommendation System</Typography>
       <TextField
+        name="movieName"
         autoComplete="off"
-        // sx={{ width: 20 }}
+        sx={{ width: 280 }}
         variant="outlined"
         label="Movie Name"
-        helperText="Type a movie name to find the similiar one."
+        helperText={
+          !error
+            ? "Type a movie name to find the similiar one."
+            : "Cannot be empty."
+        }
+        onChange={formik.handleChange}
+        error={error}
       />
       <Button
         variant="contained"
         disableElevation
         color="primary"
         sx={{
+          mt: 3,
           backgroundColor: "black",
           paddingInline: 5,
           paddingBlock: 2,
@@ -32,7 +50,10 @@ export default function StepConnector({ onClick = () => {} }) {
             color: "black",
           },
         }}
-        onClick={onClick}
+        onClick={(e) => {
+          if (formik.values.movieName != "") onClick(e);
+          else setError(true);
+        }}
       >
         Next
       </Button>

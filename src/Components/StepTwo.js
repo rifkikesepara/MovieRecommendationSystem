@@ -2,19 +2,39 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   Slider,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-export default function StepTwo({ onClick = () => {} }) {
+export default function StepTwo({ formik, onClick = () => {} }) {
   const [selectValue, setSelectValue] = useState("");
-
   const [sliderValue, setSliderValue] = useState([1800, 2024]);
+  const [error, setError] = useState(false);
+
+  const [genres, setGenres] = useState([]);
+
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      url: "https://moviesdatabase.p.rapidapi.com/titles/utils/genres",
+      headers: {
+        "X-RapidAPI-Key": "f3656b32fdmshfc9fb865df5f9e7p1e2d78jsnfbeef42ce952",
+        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
+      },
+    };
+
+    axios
+      .request(options)
+      .then((response) => setGenres(response.data.results))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Box
       sx={{
@@ -25,30 +45,44 @@ export default function StepTwo({ onClick = () => {} }) {
         minWidth: "50%",
       }}
     >
-      <Typography variant="h2">Movie Recommendation System</Typography>
-      <FormControl variant="outlined">
+      <Typography variant="h2" marginBottom={3}>
+        Movie Recommendation System
+      </Typography>
+      <FormControl variant="outlined" error={error}>
         <InputLabel id="demo-simple-select-label">Movie Genre</InputLabel>
         <Select
+          error={error}
+          name="movieGenre"
           label="Movie Genre"
           sx={{
-            width: 200,
+            width: 250,
           }}
           value={selectValue}
-          onChange={(e) => setSelectValue(e.target.value)}
+          onChange={(e) => {
+            setSelectValue(e.target.value);
+            formik.handleChange(e);
+          }}
         >
-          <MenuItem value={"Comedy"}>Comedy</MenuItem>
-          <MenuItem value={"Drama"}>Drama</MenuItem>
-          <MenuItem value={"Sci-fi"}>Sci-fi</MenuItem>
-          <MenuItem value={"Horror"}>Horror</MenuItem>
+          {genres.map((name, index) => {
+            if (name != null)
+              return (
+                <MenuItem key={index} value={name}>
+                  {name}
+                </MenuItem>
+              );
+          })}
         </Select>
+        {error && <FormHelperText>Please select a movie genre.</FormHelperText>}
       </FormControl>
       <InputLabel id="demo-simple-select-label" sx={{ marginTop: 3 }}>
         Movie Year
       </InputLabel>
       <Slider
+        name="movieYear"
         sx={{
           color: "grey",
           height: 8,
+          width: "50%",
           "& .MuiSlider-track": {
             border: "none",
           },
@@ -85,7 +119,10 @@ export default function StepTwo({ onClick = () => {} }) {
           },
         }}
         value={sliderValue}
-        onChange={(e, newValue) => setSliderValue(newValue)}
+        onChange={(e, newValue) => {
+          setSliderValue(newValue);
+          formik.handleChange(e);
+        }}
         valueLabelDisplay="auto"
         min={1800}
         max={2024}
@@ -106,7 +143,10 @@ export default function StepTwo({ onClick = () => {} }) {
             color: "black",
           },
         }}
-        onClick={onClick}
+        onClick={(e) => {
+          if (formik.values.movieGenre != "") onClick(e);
+          else setError(true);
+        }}
       >
         Next
       </Button>

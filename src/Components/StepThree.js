@@ -1,4 +1,4 @@
-import { DeleteOutline, Label } from "@mui/icons-material";
+import { DeleteOutline, KeyTwoTone, Label } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -6,18 +6,14 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function StepThree({ onClick = () => {} }) {
-  const navigate = useNavigate();
-
   const [input, setInput] = useState("");
   const [actors, setActors] = useState([]);
   const scrollRef = useRef(null);
@@ -51,6 +47,7 @@ export default function StepThree({ onClick = () => {} }) {
           helperText="Enter the actor that you want to see in the movie."
           onKeyDown={(key) => {
             if (key.code == "Enter") {
+              key.preventDefault();
               let arr = actors;
               arr.push(input);
               setActors(arr);
@@ -99,6 +96,7 @@ export default function StepThree({ onClick = () => {} }) {
         </Paper>
       </Box>
       <Button
+        type="submit"
         variant="contained"
         disableElevation
         color="primary"
@@ -112,7 +110,6 @@ export default function StepThree({ onClick = () => {} }) {
             color: "black",
           },
         }}
-        onClick={() => navigate("../search")}
       >
         Search
       </Button>
