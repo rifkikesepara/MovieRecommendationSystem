@@ -1,7 +1,25 @@
 import { Typography, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useRecommendation from "../Hooks/useRecommendation";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Main() {
+  useEffect(() => {
+    axios
+      .post(
+        "http://127.0.0.1:5000/predict/features",
+        { movie: "Toy Story", genres: "", start: "", director: "" },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   const navigate = useNavigate();
   return (
     <Box

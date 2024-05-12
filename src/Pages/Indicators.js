@@ -1,5 +1,5 @@
 import { Box, Stepper, Step, StepLabel } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StepOne from "../Components/StepOne";
 import StepTwo from "../Components/StepTwo";
 import StepThree from "../Components/StepThree";
@@ -9,6 +9,10 @@ import { useNavigate } from "react-router-dom";
 export default function Indicators() {
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    sessionStorage.setItem("recommendation", JSON.stringify([]));
+  }, []);
 
   const getSteps = () => {
     switch (currentStep) {
@@ -45,8 +49,8 @@ export default function Indicators() {
       movieCast: [],
     },
     onSubmit: (values) => {
-      console.log(values);
-      localStorage.setItem("indicators", JSON.stringify(values));
+      // console.log(values);
+      sessionStorage.setItem("indicators", JSON.stringify(values));
       navigate("../search");
     },
   });

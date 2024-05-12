@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import SearchScreen from "../Components/SeacrhScreen";
+import SearchScreen from "../Components/SearchScreen";
 import Results from "../Components/Results";
 import { useState } from "react";
 

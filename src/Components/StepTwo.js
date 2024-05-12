@@ -129,6 +129,9 @@ export default function StepTwo({ formik, onClick = () => {} }) {
         marks
         step={10}
       />
+      <InputLabel>
+        {sliderValue[0]}-{sliderValue[1]}
+      </InputLabel>
       <Button
         variant="contained"
         disableElevation

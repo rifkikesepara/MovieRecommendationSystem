@@ -34,6 +34,12 @@ export default function StepConnector({ formik, onClick = () => {} }) {
             : "Cannot be empty."
         }
         onChange={formik.handleChange}
+        onKeyDown={(e) => {
+          if (e.key == "Enter") {
+            e.preventDefault();
+            onClick();
+          }
+        }}
         error={error}
       />
       <Button

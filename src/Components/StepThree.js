@@ -35,6 +35,9 @@ export default function StepThree({ onClick = () => {} }) {
         variant="outlined"
         label="Director Name"
         helperText="Enter the director that the movie is directed by."
+        onKeyDown={(e) => {
+          if (e.key == "Enter") e.preventDefault();
+        }}
       />
       <Box sx={{ display: "block" }}>
         <TextField
