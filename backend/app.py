@@ -24,7 +24,7 @@ def recommend():
 @app.route('/predict/features',methods=['POST','GET'])
 def recommendByTags():
      if request.method == 'POST' :
-        print(request.form)
+        # print(request.form)
         movie=request.form['movie']
         if movie!='':
             movie=deleteSpaces(movie)
@@ -36,6 +36,7 @@ def recommendByTags():
             gernes=gernes.lower()
         else : 
             gernes=' '
+        print(request.form)
         star=request.form['star']
         if star!='':
             star=deleteSpaces(star)
@@ -50,8 +51,9 @@ def recommendByTags():
 
         list=[movie,gernes,star,director]
         ans=recommendByFeature(list)
+        # print(ans)
         return Response(json.dumps(ans), mimetype='application/json')
-        return render_template('byFeatures.html',moviesByf=ans)
+        # return render_template('byFeatures.html',moviesByf=ans)
      elif request.method=='GET':
         return render_template('byFeatures.html')
 if __name__=="__main__":

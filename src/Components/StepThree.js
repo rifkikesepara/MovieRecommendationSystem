@@ -12,8 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
+import usePreferences from "../Hooks/usePreferences";
 
 export default function StepThree({ onClick = () => {} }) {
+  const { theme } = usePreferences();
   const [input, setInput] = useState("");
   const [actors, setActors] = useState([]);
   const scrollRef = useRef(null);
@@ -28,7 +30,9 @@ export default function StepThree({ onClick = () => {} }) {
         minWidth: "50%",
       }}
     >
-      <Typography variant="h2">Movie Recommendation System</Typography>
+      <Typography color={"primary"} variant="h2">
+        Movie Recommendation System
+      </Typography>
       <TextField
         autoComplete="off"
         sx={{ width: 350 }}
@@ -64,7 +68,7 @@ export default function StepThree({ onClick = () => {} }) {
             }
           }}
         />
-        <Typography textAlign={"center"} marginTop={2}>
+        <Typography color={"primary"} textAlign={"center"} marginTop={2}>
           Actors
         </Typography>
         <Paper elevation={3}>
@@ -105,13 +109,8 @@ export default function StepThree({ onClick = () => {} }) {
         color="primary"
         sx={{
           mt: 3,
-          backgroundColor: "black",
           paddingInline: 5,
           paddingBlock: 2,
-          "&:hover": {
-            backgroundColor: "grey",
-            color: "black",
-          },
         }}
       >
         Search

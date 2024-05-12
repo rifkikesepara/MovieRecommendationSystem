@@ -11,8 +11,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import usePreferences from "../Hooks/usePreferences";
 
 export default function StepTwo({ formik, onClick = () => {} }) {
+  const { theme } = usePreferences();
+
   const [selectValue, setSelectValue] = useState("");
   const [sliderValue, setSliderValue] = useState([1800, 2024]);
   const [error, setError] = useState(false);
@@ -45,7 +48,7 @@ export default function StepTwo({ formik, onClick = () => {} }) {
         minWidth: "50%",
       }}
     >
-      <Typography variant="h2" marginBottom={3}>
+      <Typography color={"primary"} variant="h2" marginBottom={3}>
         Movie Recommendation System
       </Typography>
       <FormControl variant="outlined" error={error}>
@@ -138,13 +141,8 @@ export default function StepTwo({ formik, onClick = () => {} }) {
         color="primary"
         sx={{
           mt: 3,
-          backgroundColor: "black",
           paddingInline: 5,
           paddingBlock: 2,
-          "&:hover": {
-            backgroundColor: "grey",
-            color: "black",
-          },
         }}
         onClick={(e) => {
           if (formik.values.movieGenre != "") onClick(e);

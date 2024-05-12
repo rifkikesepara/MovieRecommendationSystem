@@ -5,10 +5,13 @@ import StepTwo from "../Components/StepTwo";
 import StepThree from "../Components/StepThree";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import usePreferences from "../Hooks/usePreferences";
 
 export default function Indicators() {
-  const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+  const { theme } = usePreferences();
+
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
     sessionStorage.setItem("recommendation", JSON.stringify([]));
@@ -63,6 +66,7 @@ export default function Indicators() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Stepper

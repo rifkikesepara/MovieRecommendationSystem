@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormHelperText,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
 export default function StepConnector({ formik, onClick = () => {} }) {
@@ -14,14 +7,15 @@ export default function StepConnector({ formik, onClick = () => {} }) {
   return (
     <Box
       sx={{
-        // margin: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         minWidth: "50%",
       }}
     >
-      <Typography variant="h2">Movie Recommendation System</Typography>
+      <Typography color={"primary"} variant="h2">
+        Movie Recommendation System
+      </Typography>
       <TextField
         name="movieName"
         autoComplete="off"
@@ -48,13 +42,8 @@ export default function StepConnector({ formik, onClick = () => {} }) {
         color="primary"
         sx={{
           mt: 3,
-          backgroundColor: "black",
           paddingInline: 5,
           paddingBlock: 2,
-          "&:hover": {
-            backgroundColor: "grey",
-            color: "black",
-          },
         }}
         onClick={(e) => {
           if (formik.values.movieName != "") onClick(e);
