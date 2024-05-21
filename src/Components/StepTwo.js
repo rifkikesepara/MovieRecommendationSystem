@@ -15,7 +15,6 @@ import usePreferences from "../Hooks/usePreferences";
 
 export default function StepTwo({ formik, onClick = () => {} }) {
   const { theme } = usePreferences();
-
   const [selectValue, setSelectValue] = useState("");
   const [sliderValue, setSliderValue] = useState([1800, 2024]);
   const [error, setError] = useState(false);
@@ -48,17 +47,18 @@ export default function StepTwo({ formik, onClick = () => {} }) {
         minWidth: "50%",
       }}
     >
-      <Typography color={"primary"} variant="h2" marginBottom={3}>
-        Movie Recommendation System
-      </Typography>
-      <FormControl variant="outlined" error={error}>
+      <FormControl
+        sx={{ width: { xs: "80%", md: "30%", sm: "80%" }, mt: 5 }}
+        variant="outlined"
+        error={error}
+      >
         <InputLabel id="demo-simple-select-label">Movie Genre</InputLabel>
         <Select
           error={error}
           name="movieGenre"
           label="Movie Genre"
           sx={{
-            width: 250,
+            width: "100%",
           }}
           value={selectValue}
           onChange={(e) => {
@@ -83,16 +83,16 @@ export default function StepTwo({ formik, onClick = () => {} }) {
       <Slider
         name="movieYear"
         sx={{
-          color: "grey",
+          color: theme.palette.text.primary,
           height: 8,
-          width: "50%",
+          width: { md: "30%", xs: "80%", sm: "80%" },
           "& .MuiSlider-track": {
             border: "none",
           },
           "& .MuiSlider-thumb": {
             height: 24,
             width: 24,
-            backgroundColor: "#fff",
+            backgroundColor: theme.palette.background.default,
             border: "2px solid currentColor",
             "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
               boxShadow: "inherit",
@@ -104,12 +104,13 @@ export default function StepTwo({ formik, onClick = () => {} }) {
           "& .MuiSlider-valueLabel": {
             lineHeight: 1.2,
             fontSize: 12,
+            color: theme.palette.background.default,
             background: "unset",
             padding: 0,
             width: 32,
             height: 32,
             borderRadius: "50% 50% 50% 0",
-            backgroundColor: "grey",
+            backgroundColor: theme.palette.text.primary,
             transformOrigin: "bottom left",
             transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
             "&::before": { display: "none" },

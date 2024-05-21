@@ -1,4 +1,10 @@
-import { Box, Button, Pagination, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Pagination,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "./MovieCard";
@@ -7,6 +13,10 @@ import usePreferences from "../Hooks/usePreferences";
 export default function Results() {
   const navigate = useNavigate();
   const { theme } = usePreferences();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+  const mobile = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const divideData = matches ? 6 : mobile ? 4 : 2;
 
   const data = JSON.parse(sessionStorage.getItem("recommendation"));
   const [animate, setAnimate] = useState(false);
@@ -32,7 +42,7 @@ export default function Results() {
         backgroundColor: theme.palette.background.default,
       }}
     >
-      <Typography color={"primary"} variant="h4">
+      <Typography textAlign={"center"} color={"primary"} variant="h4">
         Results for the Movie...
       </Typography>
       {!data.length && (
@@ -45,12 +55,14 @@ export default function Results() {
           sx={{
             display: "flex",
             justifyContent: "space-around",
-            width: "100%",
+            width: { md: 1000, xs: "100%" },
+            height: "80%",
+            overflowY: "hidden",
             flexWrap: "wrap",
           }}
         >
           {data
-            .slice(6 * (startIndex - 1), startIndex * 6)
+            .slice(divideData * (startIndex - 1), startIndex * divideData)
             .map(({ id, title, genres, score, release_date }) => {
               return (
                 <MovieCard
@@ -74,21 +86,23 @@ export default function Results() {
           width: "100%",
         }}
       >
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{
-            position: "absolute",
-            left: 10,
-            paddingInline: 5,
-            paddingBlock: 2,
-          }}
-          onClick={() => navigate("../movieRecommend")}
-        >
-          Make a new search
-        </Button>
+        {matches && (
+          <Button
+            variant="contained"
+            disableElevation
+            sx={{
+              position: "absolute",
+              left: 10,
+              paddingInline: 5,
+              paddingBlock: 2,
+            }}
+            onClick={() => navigate("../movieRecommend")}
+          >
+            Make a new search
+          </Button>
+        )}
         <Pagination
-          count={parseInt(data.length / 5)}
+          count={parseInt(data.length / divideData) + 1}
           onChange={(e, p) => {
             setAnimate(false);
             setPage(p);

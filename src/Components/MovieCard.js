@@ -31,15 +31,19 @@ export default function MovieCard({
       <Card
         elevation={4}
         sx={{
-          width: 346,
-          // height: 733,
+          width: { xs: "70%", md: 300, sm: 300 },
+          height: 280,
           position: "relative",
           mb: 4,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <CardHeader
           title={title}
           subheader={getAllGenres(genres)}
+          subheaderTypographyProps={{ sx: { fontSize: 12 } }}
           action={
             <>
               <IconButton
@@ -56,7 +60,14 @@ export default function MovieCard({
             </>
           }
         />
-        <CardContent sx={{ p: 0 }}>
+        <CardContent
+          sx={{
+            p: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Typography
             variant="h5"
             textAlign={"center"}
@@ -65,6 +76,9 @@ export default function MovieCard({
           >
             {release_date.split("-")[0]}
           </Typography>
+          <Box>
+            <Rating readOnly value={parseFloat(score) / 2} precision={0.5} />
+          </Box>
         </CardContent>
         <CardActions
           sx={{
@@ -73,13 +87,9 @@ export default function MovieCard({
             width: "100%",
             padding: 0,
             paddingBottom: 5,
-            alignSelf: "flex-end",
           }}
         >
-          <Box>
-            <Rating readOnly value={parseFloat(score) / 2} precision={0.5} />
-          </Box>
-          <Box
+          {/* <Box
             sx={{
               mt: 2,
               mr: 1,
@@ -92,7 +102,7 @@ export default function MovieCard({
             <Chip avatar={<Avatar>P</Avatar>} label="Prime" />
             <Chip avatar={<Avatar>D</Avatar>} label="Disney+" />
             <Chip avatar={<Avatar>H</Avatar>} label="HBO" />
-          </Box>
+          </Box> */}
         </CardActions>
       </Card>
     </Grow>

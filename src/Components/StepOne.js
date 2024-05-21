@@ -1,5 +1,12 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useState } from "react";
+import usePreferences from "../Hooks/usePreferences";
 
 export default function StepConnector({ formik, onClick = () => {} }) {
   const [error, setError] = useState(false);
@@ -13,13 +20,10 @@ export default function StepConnector({ formik, onClick = () => {} }) {
         minWidth: "50%",
       }}
     >
-      <Typography color={"primary"} variant="h2">
-        Movie Recommendation System
-      </Typography>
       <TextField
         name="movieName"
         autoComplete="off"
-        sx={{ width: 280 }}
+        sx={{ width: { xs: "80%", md: "30%", sm: "80%" }, mt: 5 }}
         variant="outlined"
         label="Movie Name"
         helperText={
