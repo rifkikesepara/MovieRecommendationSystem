@@ -1,4 +1,12 @@
-import { Box, Stepper, Step, StepLabel } from "@mui/material";
+import {
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  useMediaQuery,
+  Typography,
+  Stack,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import StepOne from "../Components/StepOne";
 import StepTwo from "../Components/StepTwo";
@@ -10,6 +18,7 @@ import usePreferences from "../Hooks/usePreferences";
 export default function Indicators() {
   const navigate = useNavigate();
   const { theme } = usePreferences();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -72,17 +81,19 @@ export default function Indicators() {
       <Stepper
         sx={{
           position: "absolute",
-          left: "5%",
-          height: "50%",
+          left: matches && "5%",
+          top: !matches && "10%",
+          height: matches && "50%",
           "& .MuiStepConnector-line": {
             minHeight: "100%",
           },
           "& .MuiStepLabel-label": {
-            fontSize: 20,
+            fontSize: matches ? 20 : 15,
           },
         }}
+        alternativeLabel={!matches ? true : false}
         activeStep={currentStep}
-        orientation="vertical"
+        orientation={matches ? "vertical" : "horizontal"}
       >
         <Step key={0} sx={{ "&:hover": { cursor: "pointer" } }}>
           <StepLabel onClick={() => setCurrentStep(0)}>Movie Name</StepLabel>
@@ -96,7 +107,18 @@ export default function Indicators() {
           </StepLabel>
         </Step>
       </Stepper>
-      <form onSubmit={formik.handleSubmit}>{getSteps()}</form>
+      <Stack sx={{ width: "100%" }}>
+        {matches && (
+          <Typography
+            textAlign={"center"}
+            color={"primary"}
+            variant={matches ? "h2" : "h4"}
+          >
+            Movie Recommendation System
+          </Typography>
+        )}
+        <form onSubmit={formik.handleSubmit}>{getSteps()}</form>
+      </Stack>
     </Box>
   );
 }

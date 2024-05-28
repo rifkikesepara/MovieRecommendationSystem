@@ -8,14 +8,13 @@ import {
   ListItemButton,
   ListItemText,
   Paper,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import usePreferences from "../Hooks/usePreferences";
 
 export default function StepThree({ onClick = () => {} }) {
-  const { theme } = usePreferences();
   const [input, setInput] = useState("");
   const [actors, setActors] = useState([]);
   const scrollRef = useRef(null);
@@ -30,12 +29,9 @@ export default function StepThree({ onClick = () => {} }) {
         minWidth: "50%",
       }}
     >
-      <Typography color={"primary"} variant="h2">
-        Movie Recommendation System
-      </Typography>
       <TextField
         autoComplete="off"
-        sx={{ width: 350 }}
+        sx={{ width: { md: "30%", xs: "80%", sm: "80%" }, mt: 5 }}
         variant="outlined"
         label="Director Name"
         helperText="Enter the director that the movie is directed by."
@@ -43,12 +39,12 @@ export default function StepThree({ onClick = () => {} }) {
           if (e.key == "Enter") e.preventDefault();
         }}
       />
-      <Box sx={{ display: "block" }}>
+      <Stack alignItems={"center"} width={"100%"}>
         <TextField
           value={input}
           onChange={(e) => setInput(e.target.value)}
           autoComplete="off"
-          sx={{ mt: 2, width: 350 }}
+          sx={{ mt: 2, width: { md: "30%", xs: "80%", sm: "80%" } }}
           variant="outlined"
           label="Actor Name"
           helperText="Enter the actor that you want to see in the movie."
@@ -71,16 +67,20 @@ export default function StepThree({ onClick = () => {} }) {
         <Typography color={"primary"} textAlign={"center"} marginTop={2}>
           Actors
         </Typography>
-        <Paper elevation={3}>
+        <Paper
+          elevation={3}
+          sx={{ width: { md: "30%", xs: "80%", sm: "80%" } }}
+        >
           <List
             sx={{
               height: 100,
               overflowY: "scroll",
             }}
           >
-            {actors.map((name) => {
+            {actors.map((name, index) => {
               return (
                 <ListItem
+                  key={index}
                   ref={scrollRef}
                   disablePadding
                   secondaryAction={
@@ -101,7 +101,7 @@ export default function StepThree({ onClick = () => {} }) {
             })}
           </List>
         </Paper>
-      </Box>
+      </Stack>
       <Button
         type="submit"
         variant="contained"
